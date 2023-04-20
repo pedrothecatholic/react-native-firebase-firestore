@@ -1,0 +1,40 @@
+import React, { useEffect } from 'react';
+import { View, Text } from 'react-native';
+import Cabecalho from '../../componentes/Cabecalho';
+import Produto from '../../componentes/Produtos';
+import estilos from './estilos';
+import { auth } from '../../config/firebase';
+import { doc, setDoc } from 'firebase/firestore';
+import db from '../../config/db';
+
+export default function Principal({ navigation }) {
+  const usuario = auth.currentUser;
+
+  function deslogar() {
+    auth.signOut();
+    navigation.replace('Login');
+  }
+
+  useEffect(() => {
+    // funcao de criar produto
+    async function criarProduto() {
+      await setDoc(doc(db, 'produtos', '123456'), {
+        nome: 'Tênis',
+        preco: 89.9
+      });
+    }
+
+    criarProduto();
+  }, []);
+
+  return (
+    <View style={estilos.container}>
+      <Cabecalho logout={deslogar} />
+      <Text style={estilos.texto}>Usuário: {usuario.email}</Text>
+
+      <Produto nome='Tênis' preco='200,00' />
+      <Produto nome='Camisa' preco='100,00' />
+      <Produto nome='Suplementos' preco='150,00' />
+    </View>
+  );
+}
