@@ -5,7 +5,7 @@ import {
 } from 'firebase/auth/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getFirestore } from 'firebase/firestore';
-/* import {
+import {
   API_KEY,
   AUTH_DOMAIN,
   PROJECT_ID,
@@ -14,15 +14,15 @@ import { getFirestore } from 'firebase/firestore';
   APP_ID,
   MEASUREMENT_ID
 } from '@env';
- */
+
 const firebaseConfig = {
-  apiKey: 'AIzaSyA7muM_UVzD070WRTesbYNq40-Zf6OA4xA',
-  authDomain: 'mobsport-3e9e3.firebaseapp.com',
-  projectId: 'mobsport-3e9e3',
-  storageBucket: 'mobsport-3e9e3.appspot.com',
-  messagingSenderId: '209510820464',
-  appId: '1:209510820464:web:91417dbefbaab524e8a2b5',
-  measurementId: 'G-MDC57DEWSN'
+  apiKey: API_KEY,
+  authDomain: AUTH_DOMAIN,
+  projectId: PROJECT_ID,
+  storageBucket: STORAGE_BUCKET,
+  messagingSenderId: MESSAGING_SENDER_ID,
+  appId: APP_ID,
+  measurementId: MEASUREMENT_ID
 };
 
 // Initialize Firebase

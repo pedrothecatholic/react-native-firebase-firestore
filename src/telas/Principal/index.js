@@ -4,8 +4,8 @@ import Cabecalho from '../../componentes/Cabecalho';
 import Produto from '../../componentes/Produtos';
 import estilos from './estilos';
 import { auth } from '../../config/firebase';
-import { doc, setDoc } from 'firebase/firestore';
-import db from '../../config/db';
+import { doc, setDoc, collection, addDoc } from 'firebase/firestore';
+import db from '../../config/firebase';
 
 export default function Principal({ navigation }) {
   const usuario = auth.currentUser;
@@ -18,9 +18,9 @@ export default function Principal({ navigation }) {
   useEffect(() => {
     // funcao de criar produto
     async function criarProduto() {
-      await setDoc(doc(db, 'produtos', '123456'), {
+      await addDoc(collection(db, 'produtos'), {
         nome: 'Tênis',
-        preco: 89.9
+        preco: 89.90
       });
     }
 
