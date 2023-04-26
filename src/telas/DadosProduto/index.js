@@ -1,23 +1,43 @@
-import { Alert, View } from 'react-native';
+import { View } from 'react-native';
 import { EntradaTexto } from '../../componentes/EntradaTexto';
 import Botao from '../../componentes/Botao';
 import estilos from './estilos';
 import React, { useState } from 'react';
-import { salvarProduto } from '../../servicos/firestore';
+import { atualizarProduto, salvarProduto } from '../../servicos/firestore';
+import { Alerta } from '../../componentes/Alerta';
 
-export default function DadosProduto({ navigation }) {
-  const [nome, setNome] = useState('');
-  const [preco, setPreco] = useState('');
+export default function DadosProduto({ navigation, route }) {
+  const [nome, setNome] = useState(route?.params?.nome || '');
+  const [preco, setPreco] = useState(route?.params?.preco || '');
+  const [mensagem, setMensagem] = useState('');
+  const [mostrarMensagem, setMostrarMensagem] = useState(false);
 
   async function salvar() {
-    const resultado = await salvarProduto({
-      nome,
-      preco
-    });
-    if (resultado == 'ok') {
+    if (nome === '' || preco === '') {
+      setMensagem('Por favor, preencha todos os campos');
+      setMostrarMensagem(true);
+      return;
+    }
+
+    let resultado = '';
+
+    if (route?.params) {
+      resultado = await atualizarProduto(route?.params?.id, {
+        nome,
+        preco
+      });
+    } else {
+      resultado = await salvarProduto({
+        nome,
+        preco
+      });
+    }
+
+    if (resultado === 'ok') {
       navigation.goBack();
     } else {
-      Alert.alert('Erro ao criar produto');
+      setMensagem('Erro ao criar produto');
+      setMostrarMensagem(true);
     }
   }
 
@@ -39,6 +59,12 @@ export default function DadosProduto({ navigation }) {
       />
 
       <Botao onPress={() => salvar()}>Salvar</Botao>
+
+      <Alerta
+        mensagem={mensagem}
+        error={mostrarMensagem}
+        setError={setMostrarMensagem}
+      />
     </View>
   );
 }
