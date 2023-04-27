@@ -11,7 +11,11 @@ import Produto from '../../componentes/Produtos';
 import estilos from './estilos';
 import { auth } from '../../config/firebase';
 import { BotaoProduto } from '../../componentes/BotaoProduto';
-import { pegarProdutos } from '../../servicos/firestore';
+import {
+  pegarProdutos,
+  pegarProdutosTempoReal
+} from '../../servicos/firestore';
+import InputPesquisa from '../../componentes/InputPesquisa';
 
 export default function Principal({ navigation }) {
   const usuario = auth.currentUser;
@@ -27,6 +31,8 @@ export default function Principal({ navigation }) {
 
   useEffect(() => {
     carregarDadosProdutos();
+
+    pegarProdutosTempoReal(setProdutos);
   }, []);
 
   function deslogar() {
@@ -37,6 +43,8 @@ export default function Principal({ navigation }) {
   return (
     <View style={estilos.container}>
       <Cabecalho logout={deslogar} />
+      <InputPesquisa />
+
       <Text style={estilos.texto}>Usuário: {usuario.email}</Text>
 
       <ScrollView

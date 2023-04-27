@@ -2,21 +2,17 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    height: 60,
+    height: 40,
     width: '100%',
-    backgroundColor: '#1E8187',
+    backgroundColor: '#33333315',
     justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row'
+    alignItems: 'flex-start',
+    padding: 10
   },
-  texto: {
+  pesquisa: {
     fontSize: 20,
     fontFamily: 'Roboto',
     fontWeight: '500',
-    color: '#fff'
-  },
-  botao: {
-    position: 'absolute',
-    right: 20
+    color: '#222'
   }
 });

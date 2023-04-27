@@ -1,10 +1,15 @@
-import { View } from 'react-native';
+import { Alert, TouchableOpacity, View } from 'react-native';
 import { EntradaTexto } from '../../componentes/EntradaTexto';
 import Botao from '../../componentes/Botao';
 import estilos from './estilos';
 import React, { useState } from 'react';
-import { atualizarProduto, salvarProduto } from '../../servicos/firestore';
+import {
+  atualizarProduto,
+  deletarProduto,
+  salvarProduto
+} from '../../servicos/firestore';
 import { Alerta } from '../../componentes/Alerta';
+import Icon from 'react-native-vector-icons/Feather';
 
 export default function DadosProduto({ navigation, route }) {
   const [nome, setNome] = useState(route?.params?.nome || '');
@@ -41,8 +46,30 @@ export default function DadosProduto({ navigation, route }) {
     }
   }
 
+  async function deletar() {
+    Alert.alert('Deletar produto', 'Tem certeza que quer deletar?', [
+      {
+        text: 'Não',
+        style: 'cancel'
+      },
+      {
+        text: 'Sim',
+        onPress: () => {
+          deletarProduto(route?.params?.id);
+          navigation.goBack();
+        },
+        style: 'default'
+      }
+    ]);
+  }
+
   return (
     <View style={estilos.container}>
+      {route?.params && (
+        <TouchableOpacity onPress={() => deletar()}>
+          <Icon name='trash-2' size={20} color='#000' />
+        </TouchableOpacity>
+      )}
       <EntradaTexto
         label='Nome do Produto'
         value={nome}
